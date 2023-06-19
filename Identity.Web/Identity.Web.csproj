@@ -21,4 +21,8 @@
       <Folder Include="Controllers" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Identity.Infrastracture\Identity.Infrastracture.csproj" />
+    </ItemGroup>
+
 </Project>

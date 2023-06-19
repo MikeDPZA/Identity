@@ -6,4 +6,14 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="AWSSDK.CognitoIdentity" Version="3.7.100.146" />
+      <PackageReference Include="AWSSDK.CognitoIdentityProvider" Version="3.7.101.146" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Identity.Cognito.Models\Identity.Cognito.Models.csproj" />
+      <ProjectReference Include="..\Identity.Shared\Identity.Shared.csproj" />
+    </ItemGroup>
+
 </Project>

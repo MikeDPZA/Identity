@@ -6,9 +6,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Identity.Adb2c\Identity.Adb2c.csproj" />
-      <ProjectReference Include="..\Identity.Cognito\Identity.Cognito.csproj" />
-    </ItemGroup>
-
 </Project>

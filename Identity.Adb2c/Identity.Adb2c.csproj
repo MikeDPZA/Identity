@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Identity.Adb2c.Models\Identity.Adb2c.Models.csproj" />
+      <ProjectReference Include="..\Identity.Shared\Identity.Shared.csproj" />
+    </ItemGroup>
+
 </Project>

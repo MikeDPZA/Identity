@@ -2,13 +2,19 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Web", "Identity.Web\Identity.Web.csproj", "{9E8C4406-D7C7-40AC-B73E-6BF5150ECBC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Models", "Identity.Models\Identity.Models.csproj", "{8AE5BCC8-E023-4A90-B8F8-4AAFBEA26F09}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Cognito.Models", "Identity.Cognito.Models\Identity.Cognito.Models.csproj", "{8AE5BCC8-E023-4A90-B8F8-4AAFBEA26F09}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Cognito", "Identity.Cognito\Identity.Cognito.csproj", "{29F9F066-0FB9-47A9-A4F3-CDAAD10FCD35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Infrastracture", "Identity.Infrastracture\Identity.Infrastracture.csproj", "{23ABE3D1-AAA7-438E-84C9-266A87B870C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Adb2c", "Identity.Adb2c\Identity.Adb2c.csproj", "{F3AEDFD6-57F9-475C-9F52-9DC9F904CFC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Adb2c.Models", "Identity.Adb2c.Models\Identity.Adb2c.Models.csproj", "{A9F511EF-5A93-43DB-A8D9-F381054E093A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{C5B1F38B-5417-4474-BA57-0A08A80B0723}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Shared", "Identity.Shared\Identity.Shared.csproj", "{2823793C-2E08-472C-ADA8-DB8499CEF3C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +42,13 @@ Global
 		{F3AEDFD6-57F9-475C-9F52-9DC9F904CFC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3AEDFD6-57F9-475C-9F52-9DC9F904CFC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3AEDFD6-57F9-475C-9F52-9DC9F904CFC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9F511EF-5A93-43DB-A8D9-F381054E093A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9F511EF-5A93-43DB-A8D9-F381054E093A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9F511EF-5A93-43DB-A8D9-F381054E093A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9F511EF-5A93-43DB-A8D9-F381054E093A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2823793C-2E08-472C-ADA8-DB8499CEF3C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2823793C-2E08-472C-ADA8-DB8499CEF3C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2823793C-2E08-472C-ADA8-DB8499CEF3C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2823793C-2E08-472C-ADA8-DB8499CEF3C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
