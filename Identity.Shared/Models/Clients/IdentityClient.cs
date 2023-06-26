@@ -19,7 +19,12 @@ public class IdentityClient : IRestClient
         AddHeaders(request, requestData.Headers);
         AddQueryParams(request, requestData.QueryParams);
         AddPathParams(request,requestData.PathParams);
-        request.AddBody(requestData.Body);
+
+        if (!string.IsNullOrEmpty(requestData.Body))
+        {
+            request.AddBody(requestData.Body);
+        }
+        
         var response = await _client.ExecuteAsync<TResult>(request);
         return response.Data;
     }
