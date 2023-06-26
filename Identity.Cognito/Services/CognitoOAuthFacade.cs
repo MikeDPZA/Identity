@@ -22,18 +22,28 @@ public class CognitoOAuthFacade : IOAuthFacade
 
     public async Task<OAuthResponse> GetAccessTokenAsync(string code, string redirectUri)
     {
-        var request = GetBaseRequestBuilder("authorization_code")
-                .WithPathParameter("code", Uri.EscapeDataString(code))
-                .WithPathParameter("redirect_uri", _options.RedirectUri)
-                .Build();
+        var request = GetBaseRequestBuilder(
+                "authorization_code", 
+                _options.UserCredentialsFlow.ClientId,
+                _options.UserCredentialsFlow.ClientSecret,
+                _options.UserCredentialsFlow.Scopes
+            )
+            .WithQueryParameter("code", Uri.EscapeDataString(code))
+            .WithQueryParameter("redirect_uri", _options.UserCredentialsFlow.RedirectUri)
+            .Build();
 
         return await InnerExecuteAsync(request);
     }
 
     public async Task<OAuthResponse> RefreshTokenAsync(string refreshToken)
     {
-        var request = GetBaseRequestBuilder("refresh_token")
-            .WithPathParameter("refresh_token", refreshToken)
+        var request = GetBaseRequestBuilder(
+                "refresh_token", 
+                _options.UserCredentialsFlow.ClientId,
+                _options.UserCredentialsFlow.ClientSecret,
+                _options.UserCredentialsFlow.Scopes
+            )
+            .WithQueryParameter("refresh_token", refreshToken)
             .Build();
 
         return await InnerExecuteAsync(request);
@@ -41,23 +51,29 @@ public class CognitoOAuthFacade : IOAuthFacade
 
     public async Task<OAuthResponse> GetClientCredentialsTokenAsync()
     {
-        var request = GetBaseRequestBuilder("client_credentials")
+        var request = GetBaseRequestBuilder(
+                "client_credentials",
+                _options.ClientCredentialsFlow.ClientId,
+                _options.ClientCredentialsFlow.ClientSecret,
+                _options.ClientCredentialsFlow.Scopes
+            )
             .Build();
 
         return await InnerExecuteAsync(request);
     }
 
-    private HttpRequestBuilder GetBaseRequestBuilder(string grantType)
+    private HttpRequestBuilder GetBaseRequestBuilder(string grantType, string clientId, string clientSecret, string[] scopes)
         => HttpRequestBuilder.Post("oauth2/token")
-            .WithPathParameter("client_id", _options.ClientId)
-            .WithPathParameter("client_secret", _options.ClientSecret)
-            .WithPathParameter("grant_type", grantType)
+            .WithQueryParameter("client_id", clientId)
+            .WithQueryParameter("client_secret", clientSecret)
+            .WithQueryParameter("grant_type", grantType)
+            .WithQueryParameter("scope", string.Join(" ", scopes))
             .WithHeader("Content-Type", "application/x-www-form-urlencoded")
-            .WithHeader("Authorization", GetBasicAuthHeader());
+            .WithHeader("Authorization", GetBasicAuthHeader(clientId, clientSecret));
 
     private async Task<OAuthResponse> InnerExecuteAsync(HttpRequestData data)
         => await _httpClient.ExecuteAsync<OAuthResponse>(data);
-    
-    private string GetBasicAuthHeader()
-        => $"Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_options.ClientId}:{_options.ClientSecret}"))}";
+
+    private string GetBasicAuthHeader(string clientId, string clientSecret)
+        => $"Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"))}";
 }
