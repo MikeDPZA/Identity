@@ -1,4 +1,5 @@
-﻿using Identity.Cognito.Models.Config;
+﻿using System.Security.Claims;
+using Identity.Cognito.Models.Config;
 using Identity.Cognito.Services;
 using Identity.Shared.Interfaces;
 using Identity.Shared.Models.Clients;
@@ -11,7 +12,7 @@ namespace Identity.Cognito;
 
 public static class CognitoPackage
 {
-    public static IServiceCollection AddCognitoProvider(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection UseCognito(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<CognitoConfiguration>(configuration.GetSection("CognitoConfiguration"));
         var config = configuration.GetSection("CognitoConfiguration")
@@ -95,7 +96,7 @@ public static class CognitoPackage
             {
                 var subjectClaim = ctx.Principal?
                     .Claims
-                    .FirstOrDefault(_ => _.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+                    .FirstOrDefault(_ => _.Type == ClaimTypes.NameIdentifier);
 
                 if (subjectClaim is not null)
                 {

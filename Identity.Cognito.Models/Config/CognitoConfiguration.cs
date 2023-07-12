@@ -1,7 +1,9 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace Identity.Cognito.Models.Config;
 
+[ExcludeFromCodeCoverage]
 public class CognitoConfiguration
 {
     public string UserPoolId { get; set; }

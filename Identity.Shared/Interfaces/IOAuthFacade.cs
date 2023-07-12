@@ -5,7 +5,8 @@ namespace Identity.Shared.Interfaces;
 
 public interface IOAuthFacade
 {
-    Task<OAuthResponse> GetAccessTokenAsync(string code, string redirectUri);
+    Task<OAuthResponse> GetAccessTokenAsync(string code);
     Task<OAuthResponse> RefreshTokenAsync(string refreshToken);
     Task<OAuthResponse> GetClientCredentialsTokenAsync();
+    Uri GetLoginForm();
 }

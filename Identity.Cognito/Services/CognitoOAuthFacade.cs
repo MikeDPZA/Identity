@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Web;
 using Identity.Cognito.Models.Config;
 using Identity.Shared.Builders;
 using Identity.Shared.Interfaces;
@@ -20,7 +21,7 @@ public class CognitoOAuthFacade : IOAuthFacade
         _options = options.Value;
     }
 
-    public async Task<OAuthResponse> GetAccessTokenAsync(string code, string redirectUri)
+    public async Task<OAuthResponse> GetAccessTokenAsync(string code)
     {
         var request = GetBaseRequestBuilder(
                 "authorization_code", 
@@ -60,6 +61,21 @@ public class CognitoOAuthFacade : IOAuthFacade
             .Build();
 
         return await InnerExecuteAsync(request);
+    }
+
+    public Uri GetLoginForm()
+    {
+        var builder = new UriBuilder(_options.BaseUrl + "login");
+        var query = HttpUtility.ParseQueryString("");
+        
+        query.Add("response_type", "code");
+        query.Add("client_id", _options.UserCredentialsFlow.ClientId);
+        query.Add("scope", string.Join("+",_options.UserCredentialsFlow.Scopes));
+        query.Add("redirect_uri", _options.UserCredentialsFlow.RedirectUri.ToString());
+        
+        builder.Query = query.ToString();
+
+        return builder.Uri;
     }
 
     private HttpRequestBuilder GetBaseRequestBuilder(string grantType, string clientId, string clientSecret, string[] scopes)
