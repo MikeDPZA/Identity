@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 	ProjectSection(SolutionItems) = preProject
 		Dockerfile = Dockerfile
 		Makefile = Makefile
+		.gitignore = .gitignore
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Shared", "Identity.Shared\Identity.Shared.csproj", "{2823793C-2E08-472C-ADA8-DB8499CEF3C6}"
