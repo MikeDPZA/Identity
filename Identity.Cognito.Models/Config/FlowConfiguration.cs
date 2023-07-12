@@ -1,5 +1,8 @@
-﻿namespace Identity.Cognito.Models.Config;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Identity.Cognito.Models.Config;
+
+[ExcludeFromCodeCoverage]
 public class FlowConfiguration
 {
     public string ClientId { get; set; }
