@@ -1,0 +1,10 @@
+appName: identity-ms
+replicaCount: 1
+imageName: mikedoops/identity:latest
+serviceType: ClusterIP
+servicePort: 8080
+serviceName: identity-svc
+host: some-app.test
+ingressClass: nginx
+namespace: auth
+containerPort: 80

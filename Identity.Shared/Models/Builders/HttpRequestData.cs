@@ -1,5 +1,8 @@
-﻿namespace Identity.Shared.Models.Builders;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Identity.Shared.Models.Builders;
+
+[ExcludeFromCodeCoverage]
 public class HttpRequestData
 {
     public HttpMethod Method { get; set; }

@@ -1,6 +1,8 @@
-﻿using System.Security.Claims;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
 using Identity.Cognito.Models.Config;
 using Identity.Cognito.Services;
+using Identity.Shared.Clients;
 using Identity.Shared.Interfaces;
 using Identity.Shared.Models.Clients;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.Options;
 
 namespace Identity.Cognito;
 
+[ExcludeFromCodeCoverage]
 public static class CognitoPackage
 {
     public static IServiceCollection UseCognito(this IServiceCollection services, IConfiguration configuration)
@@ -18,12 +21,8 @@ public static class CognitoPackage
         var config = configuration.GetSection("CognitoConfiguration")
             .Get<CognitoConfiguration>();
 
-
-        services.AddScoped<IOAuthFacade, CognitoOAuthFacade>(_ => new(
-                _.GetRequiredService<IOptions<CognitoConfiguration>>(),
-                new IdentityClient(config.BaseUrl)
-            )
-        );
+        services.AddScoped<IRestClient, IdentityClient>(_ => new IdentityClient(config.BaseUrl));
+        services.AddScoped<IOAuthFacade, CognitoOAuthFacade>();
 
         services
             .AddAuthentication(options =>

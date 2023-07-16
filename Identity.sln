@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Adb2c.Tests", "Ide
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Shared.Tests", "Identity.Shared.Tests\Identity.Shared.Tests.csproj", "{24D2243C-3F42-4013-8AE8-9A3F74BF55F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Cognito.Tests.Integration", "Identity.Cognito.Tests.Integration\Identity.Cognito.Tests.Integration.csproj", "{92707C47-0FD7-439D-A512-AB1FC419C9A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{24D2243C-3F42-4013-8AE8-9A3F74BF55F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24D2243C-3F42-4013-8AE8-9A3F74BF55F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24D2243C-3F42-4013-8AE8-9A3F74BF55F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92707C47-0FD7-439D-A512-AB1FC419C9A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92707C47-0FD7-439D-A512-AB1FC419C9A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92707C47-0FD7-439D-A512-AB1FC419C9A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92707C47-0FD7-439D-A512-AB1FC419C9A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F3AEDFD6-57F9-475C-9F52-9DC9F904CFC5} = {92CE6DF1-DC40-4002-97DF-B5427CA38301}
@@ -89,5 +95,6 @@ Global
 		{C562C0F7-A2C9-4DCE-B767-B8DAF7A268E3} = {8AEBFA66-DBD2-4F94-A692-12DA5E300957}
 		{B4375B15-AF87-462E-AC19-A90E6473B4A5} = {8AEBFA66-DBD2-4F94-A692-12DA5E300957}
 		{24D2243C-3F42-4013-8AE8-9A3F74BF55F6} = {8AEBFA66-DBD2-4F94-A692-12DA5E300957}
+		{92707C47-0FD7-439D-A512-AB1FC419C9A0} = {8AEBFA66-DBD2-4F94-A692-12DA5E300957}
 	EndGlobalSection
 EndGlobal

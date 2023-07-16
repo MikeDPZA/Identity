@@ -1,7 +1,8 @@
 ﻿using Identity.Shared.Models.Builders;
 using RestSharp;
+using IRestClient = Identity.Shared.Models.Clients.IRestClient;
 
-namespace Identity.Shared.Models.Clients;
+namespace Identity.Shared.Clients;
 
 public class IdentityClient : IRestClient
 {
@@ -26,7 +27,13 @@ public class IdentityClient : IRestClient
         }
         
         var response = await _client.ExecuteAsync<TResult>(request);
-        return response.Data;
+
+        if (!response.IsSuccessful)
+        {
+            throw new HttpRequestException(response.Content);
+        }
+        
+        return response.Data!;
     }
 
     private static void AddMethod(RestRequest request, HttpMethod method)
