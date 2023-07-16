@@ -1,7 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace Identity.Shared.Models.OAuth;
 
+[ExcludeFromCodeCoverage]
 public class OAuthResponse
 {
     [JsonPropertyName("access_token")]

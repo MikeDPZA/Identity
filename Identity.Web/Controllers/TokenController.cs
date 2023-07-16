@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Identity.Web.Controllers;
 
 [ApiController]
-[Route("api/v1/Token")]
+[Route("v1/Token")]
 public class TokenController: ControllerBase
 {
     private readonly IOAuthFacade _oAuthFacade;
@@ -24,6 +24,11 @@ public class TokenController: ControllerBase
         }
         catch (Exception e)
         {
+            if (e is HttpRequestException)
+            {
+                return BadRequest(e.Message);
+            }
+            
             return BadRequest(e.Message);
         }
     }
