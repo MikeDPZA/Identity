@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.Shared.Tests", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.Cognito.Tests.Integration", "Reception.Cognito.Tests.Integration\Reception.Cognito.Tests.Integration.csproj", "{92707C47-0FD7-439D-A512-AB1FC419C9A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reception.Shared.Models", "Reception.Shared.Models\Reception.Shared.Models.csproj", "{B1DAF12C-0AE2-4A9E-86F1-E3CA51511A5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{92707C47-0FD7-439D-A512-AB1FC419C9A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92707C47-0FD7-439D-A512-AB1FC419C9A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92707C47-0FD7-439D-A512-AB1FC419C9A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1DAF12C-0AE2-4A9E-86F1-E3CA51511A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1DAF12C-0AE2-4A9E-86F1-E3CA51511A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1DAF12C-0AE2-4A9E-86F1-E3CA51511A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1DAF12C-0AE2-4A9E-86F1-E3CA51511A5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F3AEDFD6-57F9-475C-9F52-9DC9F904CFC5} = {92CE6DF1-DC40-4002-97DF-B5427CA38301}
@@ -96,5 +102,6 @@ Global
 		{B4375B15-AF87-462E-AC19-A90E6473B4A5} = {8AEBFA66-DBD2-4F94-A692-12DA5E300957}
 		{24D2243C-3F42-4013-8AE8-9A3F74BF55F6} = {8AEBFA66-DBD2-4F94-A692-12DA5E300957}
 		{92707C47-0FD7-439D-A512-AB1FC419C9A0} = {8AEBFA66-DBD2-4F94-A692-12DA5E300957}
+		{B1DAF12C-0AE2-4A9E-86F1-E3CA51511A5A} = {92CE6DF1-DC40-4002-97DF-B5427CA38301}
 	EndGlobalSection
 EndGlobal

@@ -18,6 +18,8 @@ builder.Services.AddSwaggerGen(_ =>
     });
 });
 
+builder.Services.AddCors();
+
 builder.Services.UseReceptionAuthorization(builder.Configuration);
 
 var app = builder.Build();
@@ -31,6 +33,7 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Reception v1 API");
 });
 
+app.UseCors();
 
 app.UseHttpsRedirection();
 
