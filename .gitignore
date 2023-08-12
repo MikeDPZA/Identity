@@ -3,4 +3,4 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
-Identity.Web/appsettings.Development.json
+Reception.Web/appsettings.Development.json
