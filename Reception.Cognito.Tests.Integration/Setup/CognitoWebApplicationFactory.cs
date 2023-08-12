@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Reception.Shared.Clients;
-using Reception.Shared.Models.Clients;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;

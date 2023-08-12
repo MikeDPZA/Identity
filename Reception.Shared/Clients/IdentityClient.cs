@@ -1,6 +1,6 @@
 ﻿using Reception.Shared.Models.Builders;
 using RestSharp;
-using IRestClient = Reception.Shared.Models.Clients.IRestClient;
+using IRestClient = Reception.Shared.Clients.IRestClient;
 
 namespace Reception.Shared.Clients;
 
@@ -15,6 +15,30 @@ public class ReceptionClient : IRestClient
     
     public async Task<TResult> ExecuteAsync<TResult>(HttpRequestData requestData)
     {
+        var request = BuildRequest(requestData);
+        var response = await _client.ExecuteAsync<TResult>(request);
+
+        if (!response.IsSuccessful)
+        {
+            throw new HttpRequestException(response.Content);
+        }
+        
+        return response.Data!;
+    }
+    
+    public async Task ExecuteAsync(HttpRequestData requestData)
+    {
+        var request = BuildRequest(requestData);
+        var response = await _client.ExecuteAsync(request);
+
+        if (!response.IsSuccessful)
+        {
+            throw new HttpRequestException(response.Content);
+        }
+    }
+
+    private static RestRequest BuildRequest(HttpRequestData requestData)
+    {
         var request = new RestRequest(requestData.Path);
         AddMethod(request, requestData.Method);
         AddHeaders(request, requestData.Headers);
@@ -25,15 +49,8 @@ public class ReceptionClient : IRestClient
         {
             request.AddBody(requestData.Body);
         }
-        
-        var response = await _client.ExecuteAsync<TResult>(request);
 
-        if (!response.IsSuccessful)
-        {
-            throw new HttpRequestException(response.Content);
-        }
-        
-        return response.Data!;
+        return request;
     }
 
     private static void AddMethod(RestRequest request, HttpMethod method)

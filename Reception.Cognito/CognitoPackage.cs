@@ -1,14 +1,14 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Security.Claims;
 using Reception.Cognito.Models.Config;
 using Reception.Shared.Clients;
 using Reception.Shared.Interfaces;
-using Reception.Shared.Models.Clients;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+using Reception.Cognito.Context;
 using Reception.Cognito.Services;
+using Reception.Shared.Constants;
 using Reception.Shared.Exceptions;
 
 namespace Reception.Cognito;
@@ -28,7 +28,7 @@ public static class CognitoPackage
         }
         
         services.AddScoped<IRestClient, ReceptionClient>(_ => new ReceptionClient(config.BaseUrl));
-        services.AddScoped<IOAuthFacade, CognitoOAuthFacade>();
+        services.AddScoped<IOAuthTokenFacade, CognitoOAuthTokenFacade>();
 
         services
             .AddAuthentication(options =>
@@ -36,7 +36,7 @@ public static class CognitoPackage
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer("UC",options =>
+            .AddJwtBearer(AuthenticationSchemeConstants.UserCredentials,options =>
             {
                 options.Authority = config.AuthorityUrl.ToString();
                 options.Audience = config.UserCredentialsFlow.ClientId;
@@ -44,18 +44,18 @@ public static class CognitoPackage
                 
                 options.TokenValidationParameters = new()
                 {
-                    ValidateAudience = true,
+                    ValidateAudience = false,
                     ValidateIssuer = true,
                     ValidateLifetime = true
                 };
-                options.Events = GetBearerEvents();
+                options.Events = GetBearerEvents(services);
             })
-            .AddJwtBearer("CC",options =>
+            .AddJwtBearer(AuthenticationSchemeConstants.ClientCredentials,options =>
             {
                 options.Authority = config.AuthorityUrl.ToString();
                 options.Audience = config.ClientCredentialsFlow.ClientId;
                 options.RequireHttpsMetadata = false;
-
+                
                 options.TokenValidationParameters = new()
                 {
                     ValidateAudience = false,
@@ -63,13 +63,40 @@ public static class CognitoPackage
                     ValidateLifetime = true
                 };
 
-                options.Events = GetBearerEvents();
+                options.Events = GetBearerEvents(services);
             });
+
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy(AuthenticationSchemeConstants.UserCredentials, p =>
+            {
+                p.AuthenticationSchemes.Add(AuthenticationSchemeConstants.UserCredentials);
+                p.RequireAssertion(ctx => ValidateClient(ctx, config.UserCredentialsFlow.ClientId));
+            });
+            
+            options.AddPolicy(AuthenticationSchemeConstants.ClientCredentials, p =>
+            {
+                p.AuthenticationSchemes.Add(AuthenticationSchemeConstants.ClientCredentials);
+                p.RequireAssertion(ctx => ValidateClient(ctx, config.ClientCredentialsFlow.ClientId));
+            });
+        });
         
         return services;
     }
 
-    private static JwtBearerEvents GetBearerEvents()
+    private static bool ValidateClient(AuthorizationHandlerContext ctx, string clientId)
+    {
+        var claim = ctx.User.Claims.FirstOrDefault(_ => _.Type == "client_id");
+
+        if (claim == null)
+        {
+            return false;
+        }
+
+        return claim.Value == clientId;
+    }
+
+    private static JwtBearerEvents GetBearerEvents(IServiceCollection services)
     {
         return  new JwtBearerEvents
         {
@@ -91,14 +118,11 @@ public static class CognitoPackage
             },
             OnTokenValidated = async ctx =>
             {
-                var subjectClaim = ctx.Principal?
-                    .Claims
-                    .FirstOrDefault(_ => _.Type == ClaimTypes.NameIdentifier);
+                var claims = ctx.Principal?.Claims?.ToDictionary(_ => _.Type, _ => _.Value);
 
-                if (subjectClaim is not null)
-                {
-                    var userId = subjectClaim.Value;
-                }
+                if (claims == null) return;
+                
+                // services.AddScoped<CurrentTokenContext>(_ => new (claims));
             }
         };
     }

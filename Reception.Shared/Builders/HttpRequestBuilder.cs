@@ -7,23 +7,23 @@ public class HttpRequestBuilder
 {
     private readonly HttpRequestData _data;
     
-    private HttpRequestBuilder(HttpMethod method, string path)
+    private HttpRequestBuilder(HttpMethod method, params string[] path)
     {
         _data = new HttpRequestData()
         {
             Method = method,
-            Path = path,
+            Path = string.Join("/", path),
             Headers = new(),
             QueryParams = new(),
             PathParams = new()
         };
     }
     
-    public static HttpRequestBuilder Get(string path) => new(HttpMethod.Get, path);
-    public static HttpRequestBuilder Post(string path) => new(HttpMethod.Post, path);
-    public static HttpRequestBuilder Put(string path) => new(HttpMethod.Put, path);
-    public static HttpRequestBuilder Patch(string path) => new(HttpMethod.Patch, path);
-    public static HttpRequestBuilder Delete(string path) => new(HttpMethod.Delete, path);
+    public static HttpRequestBuilder Get(params string[] path) => new(HttpMethod.Get, path);
+    public static HttpRequestBuilder Post(params string[] path) => new(HttpMethod.Post, path);
+    public static HttpRequestBuilder Put(params string[] path) => new(HttpMethod.Put, path);
+    public static HttpRequestBuilder Patch(params string[] path) => new(HttpMethod.Patch, path);
+    public static HttpRequestBuilder Delete(params string[] path) => new(HttpMethod.Delete, path);
     
     public HttpRequestBuilder WithBody(string body)
     {
@@ -47,7 +47,10 @@ public class HttpRequestBuilder
     
     public HttpRequestBuilder WithQueryParameter(string key, string value)
     {
-        _data.QueryParams.Add(key, value);
+        if (!string.IsNullOrEmpty(key) && !string.IsNullOrEmpty(value))
+        {
+            _data.QueryParams.Add(key, value);
+        }
         return this;
     }
     

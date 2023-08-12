@@ -1,19 +1,20 @@
 ﻿using Reception.Shared.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Reception.Shared.Attributes;
 
 namespace Reception.Web.Controllers;
 
 [ApiController]
 [Route("v1/Token")]
-public class TokenController: ControllerBase
+public class TokenController : ControllerBase
 {
-    private readonly IOAuthFacade _oAuthFacade;
+    private readonly IOAuthTokenFacade _oAuthFacade;
 
-    public TokenController(IOAuthFacade oAuthFacade)
+    public TokenController(IOAuthTokenFacade oAuthFacade)
     {
         _oAuthFacade = oAuthFacade;
     }
-    
+
     [HttpGet("Authorization")]
     public async Task<IActionResult> GetAuthorizationToken([FromQuery] string code)
     {
@@ -28,11 +29,26 @@ public class TokenController: ControllerBase
             {
                 return BadRequest(e.Message);
             }
-            
+
             return BadRequest(e.Message);
         }
     }
-    
+
+    [UserCredentialsAuth]
+    [HttpGet("Refresh")]
+    public async Task<IActionResult> RefreshToken([FromQuery] string refresher)
+    {
+        try
+        {
+            var result = await _oAuthFacade.RefreshTokenAsync(refresher);
+            return Ok(result);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
     [HttpGet("ClientCredentials")]
     public async Task<IActionResult> GetClientCredentialsToken()
     {
@@ -48,17 +64,27 @@ public class TokenController: ControllerBase
     }
 
     [HttpGet("Login")]
-    public IActionResult GetLoginForm([FromQuery] bool redirect = false)
+    public IActionResult GetLoginForm([FromQuery] string? state)
     {
         try
         {
-            var result = _oAuthFacade.GetLoginForm();
-            if (redirect)
-            {
-                return Redirect(result.ToString());    
-            }
-
+            var result = _oAuthFacade.GetLoginUri(state);
             return Ok(result.ToString());
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [UserCredentialsAuth]
+    [HttpGet("Logout")]
+    public IActionResult Logout([FromQuery] string? state)
+    {
+        try
+        {
+            var uri = _oAuthFacade.GetLogoutUri(state);
+            return Ok(uri);
         }
         catch (Exception e)
         {

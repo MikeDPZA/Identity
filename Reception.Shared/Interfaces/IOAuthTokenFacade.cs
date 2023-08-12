@@ -1,12 +1,12 @@
-﻿using Reception.Shared.Models;
-using Reception.Shared.Models.OAuth;
+﻿using Reception.Shared.Models.OAuth;
 
 namespace Reception.Shared.Interfaces;
 
-public interface IOAuthFacade
+public interface IOAuthTokenFacade
 {
     Task<OAuthResponse> GetAccessTokenAsync(string code);
     Task<OAuthResponse> RefreshTokenAsync(string refreshToken);
     Task<OAuthResponse> GetClientCredentialsTokenAsync();
-    Uri GetLoginForm();
+    Uri GetLoginUri(string? state);
+    Uri GetLogoutUri(string? accessToken);
 }

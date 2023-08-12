@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Reception.Cognito.Models.Config;
 using Reception.Cognito.Services;
 using Reception.Shared.Models.Builders;
-using Reception.Shared.Models.Clients;
 using Reception.Shared.Models.OAuth;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -13,12 +12,14 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using FluentAssertions;
+using Reception.Cognito.Context;
+using Reception.Shared.Clients;
 
 namespace Reception.Cognito.Tests.Services;
 
 public class CognitoOAuthFacadeTests
 {
-    private readonly CognitoOAuthFacade _sut;
+    private readonly CognitoOAuthTokenFacade _sut;
     private readonly IOptions<CognitoConfiguration> _optionsMock;
     private readonly Mock<IRestClient> _restMock;
 
@@ -46,10 +47,14 @@ public class CognitoOAuthFacadeTests
 
         _restMock = new Mock<IRestClient>();
 
-        _sut = new CognitoOAuthFacade(
+        var tokenCtx = new CurrentTokenContext(new()
+        {
+
+        });
+        
+        _sut = new CognitoOAuthTokenFacade(
             _optionsMock,
-            _restMock.Object
-        );
+            _restMock.Object);
     }
 
     [Fact]
@@ -141,7 +146,7 @@ public class CognitoOAuthFacadeTests
     public void GetLoginForm()
     {
 
-        var result = _sut.GetLoginForm();
+        var result = _sut.GetLoginUri("");
 
         result.Should().Be(new Uri("https://some-domain.auth.some-region.amazoncognito.com/login?" +
                                                "response_type=code" +
